@@ -98,6 +98,6 @@ async function choseFile() {
         const filePath = path.join(currentDirectory, answer.fileName);
         findAction(filePath);
     }
-}
+} 
 
 choseAction();
