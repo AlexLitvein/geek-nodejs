@@ -12,6 +12,8 @@
   "dependencies": {
     "colors": "^1.4.0",
     "inquirer": "^8.2.0",
-    "luxon": "^2.1.1"
+    "luxon": "^2.1.1",
+    "random-name": "^0.1.2",
+    "socket.io": "^4.4.0"
   }
 }

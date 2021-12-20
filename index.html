@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Socket</title>
+
+    <script src="https://cdn.socket.io/4.4.0/socket.io.min.js"
+        integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous">
+        </script>
+    <style>
+        div {
+            white-space: pre-line;
+            border: 1px solid cornflowerblue;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <p>Список участников:</p>
+        <p id="clients"></p>
+    </div>
+    <p>Ваш ник: <span id="nick"></span></p>
+    <input id="input" type="text" autofocus>
+    <button id="button">Send</button>
+    <div id="messages"></div>
+    <script>
+        const socket = io('localhost:5555');
+        const nick = document.querySelector('#nick');
+        const clients = document.querySelector('#clients');
+        const messageBlock = document.querySelector('#messages');
+        const sendButton = document.querySelector('#button');
+        const input = document.querySelector('#input');
+
+        sendButton.addEventListener('click', () => {
+            const payload = {
+                nick: nick.innerHTML,
+                message: input.value,
+            };
+
+            socket.emit('client-msg', payload);
+            input.value = '';
+        });
+
+        socket.on('connect', () => {
+            console.log('Connected!');
+        });
+
+        socket.on('server-msg', payload => {
+            messageBlock.insertAdjacentHTML('beforeend', `<p>${payload.nick}: ${payload.message}</p>`)
+        });
+
+        socket.on('server-init-client', payload => {
+            nick.innerHTML = payload.nick;
+        });
+
+        socket.on('server-upd-clients', payload => {
+            console.log(payload.clients);
+            clients.innerHTML = payload.clients;
+        });
+
+    </script>
+</body>
+
+</html>
