@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Socket</title>
+
+    <script src="https://cdn.socket.io/4.4.0/socket.io.min.js"
+        integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous">
+        </script>
+    <style>
+        div {
+            white-space: pre-line;
+            border: 1px solid cornflowerblue;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        Пользователей на странице: <span id="stat">##stat</span>
+    </div>
+    <div id="content">
+        ##content
+    </div>
+
+    <script>
+        const socket = io('localhost:3000');
+        const stat = document.querySelector('#stat');
+        const content = document.querySelector('#content');
+
+        socket.on('server-msg', payload => {
+            stat.innerHTML = payload.count;
+        });
+    </script>
+</body>
+
+</html>
